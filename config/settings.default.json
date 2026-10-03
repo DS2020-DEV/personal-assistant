@@ -1,0 +1,68 @@
+{
+  "bindHost": "127.0.0.1",
+  "port": 8787,
+  "timezone": "Asia/Kolkata",
+  "model": {
+    "provider": "ollama",
+    "name": "qwen2.5:7b",
+    "alternatives": ["qwen2.5:7b", "qwen3:8b"],
+    "visionName": "qwen2.5vl:7b",
+    "baseUrl": "http://127.0.0.1:11434",
+    "numCtx": 8192,
+    "temperature": 0.4,
+    "keepAlive": "24h"
+  },
+  "whatsapp": {
+    "enabled": true,
+    "allowFrom": [],
+    "target": "",
+    "sendVoiceNotes": true
+  },
+  "tts": {
+    "engine": "kokoro",
+    "voice": "am_michael",
+    "speed": 0.95,
+    "langCode": "a"
+  },
+  "stt": {
+    "engine": "faster-whisper",
+    "model": "base.en",
+    "device": "cpu",
+    "computeType": "int8"
+  },
+  "schedule": {
+    "dailyReminderTime": "08:30",
+    "dailyLessonTime": "09:00",
+    "eveningPreviewTime": "23:00",
+    "meetingLeadMinutes": 15
+  },
+  "learning": {
+    "lessonMinutes": 8,
+    "includeResearch": true,
+    "sendNotesToWhatsapp": true,
+    "sendAudioToWhatsapp": true
+  },
+  "autostart": {
+    "windows": false,
+    "startAssistantsOnBoot": true
+  },
+  "desktopNotifications": true,
+  "typesafe": {
+    "enabled": false,
+    "apiKey": "",
+    "baseUrl": "https://api.typesafe.ai",
+    "model": "jev-latest"
+  },
+  "azureOpenAI": {
+    "enabled": false,
+    "endpoint": "",
+    "apiKey": "",
+    "deployment": "",
+    "apiVersion": "2024-10-21"
+  },
+  "computer": {
+    "enabled": true,
+    "sendCursorPrompt": true,
+    "cursorPath": ""
+  }
+}

@@ -1,0 +1,23 @@
+---
+description: Keep Cursor chats small so compaction does not fail; batch long transcripts in the assistant.
+alwaysApply: true
+---
+
+# Context size
+
+This repo has huge OpenClaw logs and WhatsApp credential trees. Do **not** paste or read them wholesale.
+
+- Grep with a tight pattern and `head_limit` instead of reading `data/logs/openclaw.log` or `.openclaw/credentials/**`.
+- Meeting audio: use map-reduce in `backend/app/services/meetings.py` (chunk → per-section JSON → merge). Never send a full transcript in one Qwen call (`numCtx` is 8192).
+- New Cursor chat (`/new`) for a new topic. This thread already overflowed compaction — do not reload old logs into the next chat.
+- Prefer `/compact` only after a focused session, not after dumping terminal files.
+
+```python
+# BAD
+chat_json(..., transcript[:12000])
+
+# GOOD
+for section in chunk_text(transcript, max_chars=2800):
+    extract(section)
+merge(extracts)
+```

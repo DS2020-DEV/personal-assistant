@@ -1,0 +1,4 @@
+# Optional local speech stack. Bootstrap installs CPU torch first, then this file.
+kokoro>=0.9.4
+misaki[en]>=0.9.4
+faster-whisper==1.1.1

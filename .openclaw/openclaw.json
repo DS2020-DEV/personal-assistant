@@ -1,0 +1,208 @@
+{
+  "gateway": {
+    "mode": "local",
+    "bind": "loopback",
+    "port": 18789,
+    "auth": {
+      "mode": "token",
+      "token": "local-personal-assistant"
+    }
+  },
+  "logging": {
+    "level": "info"
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "ollama/qwen2.5:7b"
+      },
+      "thinkingDefault": "off",
+      "heartbeat": {
+        "every": "0m"
+      },
+      "timeoutSeconds": 120,
+      "compaction": {
+        "enabled": false,
+        "notifyUser": false,
+        "keepRecentTokens": 1500,
+        "recentTurnsPreserve": 1
+      },
+      "systemAgent": {
+        "agentId": "main"
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "default": true,
+        "name": "WhatsApp Orchestrator",
+        "workspace": "D:/Personal assistant/.openclaw/workspace-main",
+        "agentDir": "D:/Personal assistant/.openclaw/agents/main/agent"
+      },
+      {
+        "id": "tasks",
+        "name": "Task Agent",
+        "workspace": "D:/Personal assistant/.openclaw/workspace-tasks",
+        "agentDir": "D:/Personal assistant/.openclaw/agents/tasks/agent"
+      },
+      {
+        "id": "reminders",
+        "name": "Reminder Agent",
+        "workspace": "D:/Personal assistant/.openclaw/workspace-reminders",
+        "agentDir": "D:/Personal assistant/.openclaw/agents/reminders/agent"
+      },
+      {
+        "id": "learning",
+        "name": "Research and Learning Agent",
+        "workspace": "D:/Personal assistant/.openclaw/workspace-learning",
+        "agentDir": "D:/Personal assistant/.openclaw/agents/learning/agent"
+      },
+      {
+        "id": "tutor",
+        "name": "Daily Tutor",
+        "workspace": "D:/Personal assistant/.openclaw/workspace-tutor",
+        "agentDir": "D:/Personal assistant/.openclaw/agents/tutor/agent"
+      },
+      {
+        "id": "meetings",
+        "name": "Meeting Agent",
+        "workspace": "D:/Personal assistant/.openclaw/workspace-meetings",
+        "agentDir": "D:/Personal assistant/.openclaw/agents/meetings/agent"
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "whatsapp"
+      }
+    },
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "whatsapp",
+        "accountId": "*"
+      }
+    }
+  ],
+  "tools": {
+    "agentToAgent": {
+      "enabled": true,
+      "allow": [
+        "main",
+        "tasks",
+        "reminders",
+        "learning",
+        "tutor",
+        "meetings"
+      ]
+    }
+  },
+  "channels": {
+    "whatsapp": {
+      "dmPolicy": "allowlist",
+      "allowFrom": [
+        "+918698814230"
+      ],
+      "sendReadReceipts": true,
+      "mediaMaxMb": 50,
+      "pluginHooks": {
+        "messageReceived": true
+      }
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434",
+        "apiKey": "ollama-local",
+        "api": "ollama",
+        "models": [
+          {
+            "id": "qwen2.5:7b",
+            "name": "Qwen2.5 7B Instruct",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 8192,
+            "maxTokens": 2048,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 8192,
+              "keep_alive": "24h",
+              "temperature": 0.4
+            }
+          },
+          {
+            "id": "qwen3:8b",
+            "name": "Qwen3 8B",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 4096,
+            "maxTokens": 1536,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 4096,
+              "keep_alive": "24h",
+              "temperature": 0.4
+            }
+          }
+        ]
+      }
+    }
+  },
+  "talk": {
+    "agentId": "main"
+  },
+  "session": {
+    "reset": {
+      "mode": "idle",
+      "idleMinutes": 5
+    },
+    "resetByType": {
+      "direct": { "mode": "idle", "idleMinutes": 5 }
+    }
+  },
+  "plugins": {
+    "load": {
+      "paths": [
+        "D:/Personal assistant/openclaw/plugins/pa-inbox"
+      ]
+    },
+    "entries": {
+      "whatsapp": {
+        "enabled": true
+      },
+      "ollama": {
+        "enabled": true
+      },
+      "pa-inbox": {
+        "enabled": true,
+        "hooks": {
+          "allowConversationAccess": true
+        }
+      }
+    }
+  },
+  "meta": {
+    "migrations": {
+      "modelPolicyAllowlist": true
+    },
+    "lastTouchedVersion": "2026.9.4"
+  }
+}
